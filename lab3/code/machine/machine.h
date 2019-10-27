@@ -51,7 +51,6 @@ enum ExceptionType { NoException,           // Everything ok!
 		     
 		     NumExceptionTypes,
 
-		     PageFaultException  // add new ExceptionType
 };
 
 // User program CPU state.  The full set of MIPS registers, plus a few
