@@ -182,6 +182,7 @@ class Machine {
 
     TranslationEntry *pageTable;
     unsigned int pageTableSize;
+    int *tlbtime;  //LRU preparetion
 
   private:
     bool singleStep;		// drop back into the debugger after each
