@@ -48,10 +48,43 @@
 //	"which" is the kind of exception.  The list of possible exceptions 
 //	are in machine.h.
 //----------------------------------------------------------------------
+int
+	FIFO(){
+	int pos=TLBSize - 1;
+	for( int i=0; i< TLBSize - 1;i++){
+		machine->tlb[i] = machine->tlb[i+1];
+	}
+	return pos;
+}
+int
+	LRU(){
+	int pos=0,temp=machine->tlbtime[0];
+	for( int i=0; i< TLBSize - 1;i++){
+		if(machine->tlbtime[i]>temp){
+			temp = machine->tlbtime[i];
+			pos = i;
+		}
+	}
+	machine->tlbtime[pos]=0;
+	return pos;
+}
 void
 	TLBMissHander(int virAd){
 	unsigned int vpn;
-	vpn = (unsigned)vidAd / PageSize;
+	vpn = (unsigned)virAd / PageSize;
+	int pos=TLBSize - 1;
+	for(;pos<TLBSize;pos--){
+		if(tlb[pos].valid == FALSE){
+			break;
+		}
+	}
+	if(pos==-1){
+		pos = FIFO();
+	}
+	machine->tlb[pos].valid = true;
+	machine->tlb[pos].virtualPage = vpn;
+	machine->tlb[pos].physicalPage = machine->pageTable[vpn].physicalPage;
+
 
 }
 void
