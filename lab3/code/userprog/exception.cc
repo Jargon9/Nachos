@@ -24,6 +24,7 @@
 #include "copyright.h"
 #include "system.h"
 #include "syscall.h"
+#include "machine.h"
 
 //----------------------------------------------------------------------
 // ExceptionHandler
@@ -47,7 +48,12 @@
 //	"which" is the kind of exception.  The list of possible exceptions 
 //	are in machine.h.
 //----------------------------------------------------------------------
+void
+	TLBMissHander(int virAd){
+	unsigned int vpn;
+	vpn = (unsigned)vidAd / PageSize;
 
+}
 void
 ExceptionHandler(ExceptionType which)
 {
@@ -56,7 +62,18 @@ ExceptionHandler(ExceptionType which)
     if ((which == SyscallException) && (type == SC_Halt)) {
 	DEBUG('a', "Shutdown, initiated by user program.\n");
    	interrupt->Halt();
-    } else {
+    }else if(which == PageFaultException){
+    	if(machine->tlb==NULL){
+    		printf("Unexpected user mode exception %d %d\n", which, type);
+    		ASSERT(FALSE);
+    	}
+    	else{
+    		printf("Unexpected user mode exception %d %d\n", "TLBMISS", type);
+    	   	int BadVAddr = machine->ReadRegister(BadVAddrReg);
+    	   	TLBMISSHandler(BadVAddr);
+    	}
+
+    }else {
 	printf("Unexpected user mode exception %d %d\n", which, type);
 	ASSERT(FALSE);
     }
