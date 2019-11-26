@@ -44,6 +44,7 @@ class Semaphore {
     
     void P();	 // these are the only operations on a semaphore
     void V();	 // they are both *atomic*
+    int getValue(){return value;}
     
   private:
     char* name;        // useful for debugging
@@ -80,6 +81,8 @@ class Lock {
   private:
     char* name;				// for debugging
     // plus some other stuff you'll need to define
+    Semaphore* semaphore;  //Lock use semaphore
+    Thread* OwerThread;
 };
 
 // The following class defines a "condition variable".  A condition
@@ -132,5 +135,6 @@ class Condition {
   private:
     char* name;
     // plus some other stuff you'll need to define
+    List *Threadqueue;
 };
 #endif // SYNCH_H

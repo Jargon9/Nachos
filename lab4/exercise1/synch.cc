@@ -67,13 +67,11 @@ Semaphore::P()
     IntStatus oldLevel = interrupt->SetLevel(IntOff);	// disable interrupts
     
     while (value == 0) { 			// semaphore not available
-    printf("%s get lock fail \n",currentThread->getName());
 	queue->Append((void *)currentThread);	// so go to sleep
 	currentThread->Sleep();
     } 
     value--; 					// semaphore available, 
 						// consume its value
-    DEBUG('a',"currentThread %s P() value:%d \n",currentThread->getName(),value);
     
     (void) interrupt->SetLevel(oldLevel);	// re-enable interrupts
 }
@@ -89,14 +87,12 @@ Semaphore::P()
 void
 Semaphore::V()
 {
-    Thread *thread=NULL;
-
-    DEBUG('a',"currentThread %s V() \n",currentThread->getName());
+    Thread *thread;
     IntStatus oldLevel = interrupt->SetLevel(IntOff);
-    if(!queue->IsEmpty())
-    	thread = (Thread *)queue->Remove();
+
+    thread = (Thread *)queue->Remove();
     if (thread != NULL)	   // make thread ready, consuming the V immediately
-    	scheduler->ReadyToRun(thread);
+	scheduler->ReadyToRun(thread);
     value++;
     (void) interrupt->SetLevel(oldLevel);
 }
@@ -106,17 +102,16 @@ Semaphore::V()
 // the test case in the network assignment won't work!
 Lock::Lock(char* debugName) {
 	name = debugName;
-	semaphore = new Semaphore("Lock", 1);
+	semaphore = new Semaphore(debugName, 1);
 }
 Lock::~Lock() {
 	delete semaphore;
 
 }
 void Lock::Acquire() {
-	DEBUG('a',"currentThread Accquire \n");
 	IntStatus oldLevel = interrupt->SetLevel(IntOff); //disable interrupt
-//	DEBUG('a',"currentThread Accquire \n");
-	DEBUG('a',"currentThread %s Accquire \n",currentThread->getName());
+	DEBUG('a',"currentThread Accquire \n");
+//	printf('a',"currentThread %s Accquire \n",currentThread->getName());
 
 	semaphore->P();
 	OwerThread = currentThread;
@@ -125,12 +120,11 @@ void Lock::Acquire() {
 }
 void Lock::Release() {
 	IntStatus oldLevel = interrupt->SetLevel(IntOff); //disable interrupt
-//	DEBUG('a',"currentThread Release \n");
+	DEBUG('a',"currentThread Release \n");
 	DEBUG('a',"currentThread %s Release \n",currentThread->getName());
 //	printf('a',"currentThread %s Release \n",currentThread->getName());
-
-	OwerThread = NULL;
 	semaphore->V();
+	OwerThread = NULL;
     (void) interrupt->SetLevel(oldLevel);
 }
 bool Lock::isHeldByCurrentThread(){
@@ -148,10 +142,7 @@ Condition::~Condition() {
 void Condition::Wait(Lock* conditionLock) {
 	IntStatus oldLevel = interrupt->SetLevel(IntOff); //disable interrupt
 	conditionLock->Release();
-	DEBUG('a',"Thread:%s Release \n",currentThread->getName());
-
 	Threadqueue->Append(currentThread);
-	DEBUG('a',"Thread:%s sleep \n",currentThread->getName());
 	currentThread->Sleep();
 
 	DEBUG('a',"Thread awake by signal \n");
