@@ -110,7 +110,7 @@ Print(char *name)
 //----------------------------------------------------------------------
 
 #define FileName 	"TestFile"
-#define Contents 	"1234567890"
+#define Contents 	"123456789"
 #define ContentSize 	strlen(Contents)
 #define FileSize 	((int)(ContentSize * 5000))
 

@@ -48,6 +48,8 @@ class FileHeader {
     void Deallocate(BitMap *bitMap);  		// De-allocate this file's 
 						//  data blocks
 
+    bool Expand(BitMap *bitMap, int bytes);
+
     void FetchFrom(int sectorNumber); 	// Initialize file header from disk
     void WriteBack(int sectorNumber); 	// Write modifications to file header
 					//  back to disk

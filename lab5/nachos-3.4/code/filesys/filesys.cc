@@ -211,7 +211,7 @@ FileSystem::Create(char *name, int initialSize)
     	    	hdr->WriteBack(sector1);
     	    	directory->WriteBack(directoryFile);
     	    	freeMap->WriteBack(freeMapFile);
-	    		hdr->Print();
+//	    		hdr->Print();
 	    		printf("%s  %s %s \n", hdr->GetTimeOfCreate(), hdr->GetTimeOfLModify(), hdr->GetTimeOfLVisit());
 //	    		directory->Print();
     	    	DEBUG('f', "Creating file time: %d\n", hdr->GetTimeOfCreate());

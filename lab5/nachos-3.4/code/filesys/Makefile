@@ -445,13 +445,13 @@ console.o: ../machine/console.cc /usr/include/stdc-predef.h \
  /usr/include/_G_config.h /usr/include/wchar.h ../threads/stdarg.h \
  /usr/include/i386-linux-gnu/bits/stdio_lim.h \
  /usr/include/i386-linux-gnu/bits/sys_errlist.h /usr/include/string.h \
- /usr/include/xlocale.h ../threads/system.h ../threads/utility.h \
- ../threads/thread.h ../machine/machine.h ../machine/translate.h \
+ /usr/include/xlocale.h ../threads/synch.h ../threads/thread.h \
+ ../threads/utility.h ../machine/machine.h ../machine/translate.h \
  ../machine/disk.h ../userprog/addrspace.h ../filesys/filesys.h \
- ../filesys/openfile.h ../threads/scheduler.h ../threads/list.h \
- ../machine/interrupt.h ../threads/list.h ../machine/stats.h \
- ../machine/timer.h ../filesys/synchdisk.h ../machine/disk.h \
- ../threads/synch.h
+ ../filesys/openfile.h ../threads/list.h ../threads/system.h \
+ ../threads/scheduler.h ../machine/interrupt.h ../threads/list.h \
+ ../machine/stats.h ../machine/timer.h ../filesys/synchdisk.h \
+ ../machine/disk.h
 machine.o: ../machine/machine.cc /usr/include/stdc-predef.h \
  ../threads/copyright.h ../machine/machine.h ../threads/utility.h \
  ../threads/copyright.h ../threads/bool.h ../machine/sysdep.h \

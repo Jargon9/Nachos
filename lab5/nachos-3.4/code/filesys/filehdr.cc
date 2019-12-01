@@ -89,6 +89,33 @@ FileHeader::Deallocate(BitMap *freeMap)
     }
 
 }
+//-----------------------------------------------
+bool
+FileHeader::Expand(BitMap *freeMap, int bytes){
+	this->numBytes = this->numBytes+bytes;
+	int Origin_sector = this->numSectors;
+	printf("Origin_Sector:%d, numBytes:%d  bytes:%d \n", Origin_sector, numBytes, bytes);
+	this->numSectors = divRoundUp(this->numBytes, SectorSize);
+	int Add_sectors = this->numSectors - Origin_sector;
+	if(numBytes==numSectors){
+		return TRUE;
+	}
+	else{
+		if(freeMap->NumClear()<Add_sectors){
+			return FALSE;
+		}
+		printf("Expand happend; \n");
+		for(int i=Origin_sector;i<this->numSectors;i++){
+			dataSectors[i] = freeMap->Find();
+			printf("Number: %d \n", i);
+		}
+	}
+	return TRUE;
+}
+
+
+
+
 
 //----------------------------------------------------------------------
 // FileHeader::FetchFrom
